@@ -6,7 +6,7 @@ window.onload = function() {
 
     game.load.tilemap('level1', 'images/level1.json', null, Phaser.Tilemap.TILED_JSON);
     game.load.image('tiles-1', 'images/tiles-1.png');
-    game.load.spritesheet('dude', 'images/dude.png', 32, 48);
+    game.load.spritesheet('mermaid', 'images/mermaids.png', 72, 72);
     game.load.spritesheet('droid', 'images/droid.png', 32, 32);
     game.load.image('starSmall', 'images/star.png');
     game.load.image('starBig', 'images/star2.png');
@@ -48,7 +48,7 @@ window.onload = function() {
 
     game.physics.arcade.gravity.y = 0;
 
-    player = game.add.sprite(32, 32, 'dude');
+    player = game.add.sprite(32, 32, 'mermaid');
     game.physics.enable(player, Phaser.Physics.ARCADE);
 
     // player.body.bounce.y = 0;
@@ -56,9 +56,10 @@ window.onload = function() {
     player.body.collideWorldBounds = true;
     player.body.setSize(20, 32, 5, 16);
 
-    player.animations.add('left', [0, 1, 2, 3], 10, true);
-    player.animations.add('turn', [4], 20, true);
-    player.animations.add('right', [5, 6, 7, 8], 10, true);
+    player.animations.add('down',  [0, 1], 10, true);
+    player.animations.add('left',  [2, 3], 10, true);
+    player.animations.add('right', [4, 5], 10, true);
+    player.animations.add('up',    [6, 7], 10, true);
 
     game.camera.follow(player);
 
@@ -97,12 +98,12 @@ window.onload = function() {
     if (cursors.down.isDown)
     {
         player.body.velocity.y = 150;
-        player.animations.stop();
+        player.animations.play('down');
     }
     if (cursors.up.isDown)
     {
         player.body.velocity.y = -150;
-        player.animations.stop();
+        player.animations.play('up');
     }
 
     if (!cursors.left.isDown && !cursors.right.isDown && !cursors.up.isDown && !cursors.down.isDown)
