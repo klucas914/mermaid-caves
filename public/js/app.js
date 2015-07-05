@@ -2,7 +2,7 @@
 window.onload = function() {
   var game = new Phaser.Game(800, 600, Phaser.CANVAS, 'phaser-example', { preload: preload, create: create, update: update, render: render });
 
-function preload() {
+  function preload() {
 
     game.load.tilemap('level1', 'images/level1.json', null, Phaser.Tilemap.TILED_JSON);
     game.load.image('tiles-1', 'images/tiles-1.png');
@@ -12,19 +12,19 @@ function preload() {
     game.load.image('starBig', 'images/star2.png');
     game.load.image('background', 'images/background2.png');
 
-}
+  }
 
-var map;
-var tileset;
-var layer;
-var player;
-var facing = 'left';
-var jumpTimer = 0;
-var cursors;
-var jumpButton;
-var bg;
+  var map;
+  var tileset;
+  var layer;
+  var player;
+  var facing = 'left';
+  var jumpTimer = 0;
+  var cursors;
+  var jumpButton;
+  var bg;
 
-function create() {
+  function create() {
 
     game.physics.startSystem(Phaser.Physics.ARCADE);
 
@@ -46,12 +46,13 @@ function create() {
 
     layer.resizeWorld();
 
-    game.physics.arcade.gravity.y = 250;
+    game.physics.arcade.gravity.y = 0;
 
     player = game.add.sprite(32, 32, 'dude');
     game.physics.enable(player, Phaser.Physics.ARCADE);
 
-    player.body.bounce.y = 0.2;
+    // player.body.bounce.y = 0;
+    player.body.velocity.y= 0;
     player.body.collideWorldBounds = true;
     player.body.setSize(20, 32, 5, 16);
 
@@ -64,9 +65,9 @@ function create() {
     cursors = game.input.keyboard.createCursorKeys();
     jumpButton = game.input.keyboard.addKey(Phaser.Keyboard.SPACEBAR);
 
-}
+  }
 
-function update() {
+  function update() {
 
     game.physics.arcade.collide(player, layer);
 
@@ -92,6 +93,16 @@ function update() {
             facing = 'right';
         }
     }
+    else if (cursors.down.isDown)
+    {
+        player.body.velocity.y = 150;
+        player.animations.stop();
+    }
+    else if (cursors.up.isDown)
+    {
+        player.body.velocity.y = -150;
+        player.animations.stop();
+    }
     else
     {
         if (facing != 'idle')
@@ -110,21 +121,22 @@ function update() {
             facing = 'idle';
         }
     }
-    
+
+     
+        
     if (jumpButton.isDown && player.body.onFloor() && game.time.now > jumpTimer)
     {
         player.body.velocity.y = -250;
         jumpTimer = game.time.now + 750;
     }
+  }
 
-}
-
-function render () {
+  function render () {
 
     // game.debug.text(game.time.physicsElapsed, 32, 32);
     // game.debug.body(player);
     // game.debug.bodyInfo(player, 16, 24);
 
-}
+  }
 };
 
