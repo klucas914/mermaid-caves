@@ -10,8 +10,8 @@ window.onload = function() {
     game.load.spritesheet('droid', 'images/droid.png', 32, 32);
     game.load.image('starSmall', 'images/star.png');
     game.load.image('starBig', 'images/star2.png');
-    game.load.image('background', 'images/background2.png');
-
+    game.load.image('background', 'images/background.jpg');
+    game.load.image('water', 'images/water.jpg');
   }
 
   var map;
@@ -23,6 +23,7 @@ window.onload = function() {
   var cursors;
   var jumpButton;
   var bg;
+  var water;
 
   function create() {
 
@@ -30,8 +31,11 @@ window.onload = function() {
 
     game.stage.backgroundColor = '#000000';
 
-    bg = game.add.tileSprite(0, 0, 800, 600, 'background');
-    bg.fixedToCamera = true;
+    water = game.add.tileSprite(0, 0, 1024, 10000, 'water');
+    water.fixedToCamera = false;
+
+    bg = game.add.tileSprite(0, 0, 2048, 247, 'background');
+    bg.fixedToCamera = false;
 
     map = game.add.tilemap('level1');
 
